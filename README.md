@@ -1,2 +1,3 @@
-# tuw_msgs
-Non common ROS messages used by tuw pkgs. RViz plugins for vizualization are located within the tuw_rviz_plugin pkg [https://github.com/tuw-robotics/tuw_rviz_plugins] 
+# tuw_msgs_ros2
+
+Non common ROS messages used by tuw pkgs. The messages defined here are adapted versions of [tuw_msgs](https://github.com/tuw-robotics/tuw_msgs) to provide a compatible ROS 2 interface through [ros1_bridge](https://github.com/ros2/ros1_bridge/).
