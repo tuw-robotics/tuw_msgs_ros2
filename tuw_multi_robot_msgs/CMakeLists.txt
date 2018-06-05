@@ -20,15 +20,15 @@ find_package(nav_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 
 rosidl_generate_interfaces(tuw_multi_robot_msgs
-	"msg/PoseId.msg"
-	"msg/PoseIdArray.msg"
-	"msg/PathPrecondition.msg"
-	"msg/PathSegment.msg"
-	"msg/SegmentPath.msg"
-	"msg/PlannerStatus.msg"
-	"msg/Vertex.msg"
-	"msg/VoronoiGraph.msg"
-	DEPENDENCIES builtin_interfaces geometry_msgs nav_msgs
+  "msg/PoseId.msg"
+  "msg/PoseIdArray.msg"
+  "msg/RoutePrecondition.msg"
+  "msg/RouteSegment.msg"
+  "msg/Route.msg"
+  "msg/PlannerStatus.msg"
+  "msg/Vertex.msg"
+  "msg/Graph.msg"
+  DEPENDENCIES builtin_interfaces geometry_msgs nav_msgs
 )
 
 ament_package()
