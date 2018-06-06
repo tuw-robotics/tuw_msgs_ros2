@@ -29,7 +29,43 @@ rosidl_generate_interfaces(tuw_vehicle_msgs
    "msg/Track.msg"
    "msg/TrackMarking.msg"
    "msg/CmdMpcVecVphi.msg"
-   DEPENDENCIES builtin_interfaces std_msgs geometry_msgs
+   DEPENDENCIES std_msgs geometry_msgs
 )
 
+include_directories(
+  include
+  ${std_msgs_INCLUDE_DIRS}
+  ${geometry_msgs_INCLUDE_DIRS}
+)
+
+
+add_library(tuw_vehicle_msgs_lib
+   src/battery_state.cpp
+)
+
+rosidl_target_interfaces(tuw_vehicle_msgs_lib
+  ${PROJECT_NAME} "rosidl_typesupport_cpp")
+
+target_link_libraries(tuw_vehicle_msgs_lib)
+
+ament_export_include_directories(include)
+ament_export_libraries(tuw_vehicle_msgs_lib)
+
 ament_package()
+
+# install artifacts
+#install(
+#  DIRECTORY cmake
+#  DESTINATION share/${PROJECT_NAME}
+#)
+install(
+  DIRECTORY include/
+  DESTINATION include
+)
+install(
+  TARGETS tuw_vehicle_msgs_lib
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+

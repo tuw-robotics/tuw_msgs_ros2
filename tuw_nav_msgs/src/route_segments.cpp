@@ -34,13 +34,13 @@
 
 #include <tuw_nav_msgs/route_segment.h>
 #include <tuw_nav_msgs/route_segments.h>
-#include <tf/tf.h>
+#include <tf2/LinearMath/Quaternion.h>
 
 using namespace tuw::ros_msgs;
 
 RouteSegments::RouteSegments() {
 
-};
+}
 
 RouteSegments::RouteSegments ( size_t n ) {
     segments.resize ( n );
@@ -48,27 +48,27 @@ RouteSegments::RouteSegments ( size_t n ) {
 
 void RouteSegments::set_ids ( const std::vector<unsigned int> &id ) {
     if(segments.size() != id.size()) segments.resize(id.size());
-    for ( int i = 0; i < segments.size(); i++ ) segments[i].id = id[i];
+    for ( size_t i = 0; i < segments.size(); i++ ) segments[i].id = id[i];
 }
 void RouteSegments::set_type ( const std::vector<unsigned int> &type ) {
     if(segments.size() != type.size()) segments.resize(type.size());
-    for ( int i = 0; i < segments.size(); i++ ) segments[i].type = type[i];
+    for ( size_t i = 0; i < segments.size(); i++ ) segments[i].type = type[i];
 }
 void RouteSegments::set_orientation ( const std::vector<unsigned int> &orientation ) {
     if(segments.size() != orientation.size()) segments.resize(orientation.size());
-    for ( int i = 0; i < segments.size(); i++ ) segments[i].orientation = orientation[i];
+    for ( size_t i = 0; i < segments.size(); i++ ) segments[i].orientation = orientation[i];
 }
 void RouteSegments::set_motion_type ( const std::vector<unsigned int> &motion_type ) {
     if(segments.size() != motion_type.size()) segments.resize(motion_type.size());
-    for ( int i = 0; i < segments.size(); i++ ) segments[i].motion_type = motion_type[i];
+    for ( size_t i = 0; i < segments.size(); i++ ) segments[i].motion_type = motion_type[i];
 }
 void RouteSegments::set_start ( const std::vector<double> &x, const std::vector<double> &y, const std::vector<double> &theta ) {
     if(segments.size() != x.size()) segments.resize(x.size());
-    for ( int i = 0; i < segments.size(); i++ ) {
+    for ( size_t i = 0; i < segments.size(); i++ ) {
         segments[i].start.position.x = x[i];
         segments[i].start.position.y = y[i];
         segments[i].start.position.z = 0;
-        tf::Quaternion q;
+        tf2::Quaternion q;
         q.setRPY ( 0, 0, theta[i] );
         segments[i].start.orientation.x = q.getX();
         segments[i].start.orientation.y = q.getY();
@@ -78,11 +78,11 @@ void RouteSegments::set_start ( const std::vector<double> &x, const std::vector<
 }
 void RouteSegments::set_end ( const std::vector<double> &x, const std::vector<double> &y, const std::vector<double> &theta ) {
     if(segments.size() != x.size()) segments.resize(x.size());
-    for ( int i = 0; i < segments.size(); i++ ) {
+    for ( size_t i = 0; i < segments.size(); i++ ) {
         segments[i].end.position.x = x[i];
         segments[i].end.position.y = y[i];
         segments[i].end.position.z = 0;
-        tf::Quaternion q;
+        tf2::Quaternion q;
         q.setRPY ( 0, 0, theta[i] );
         segments[i].end.orientation.x = q.getX();
         segments[i].end.orientation.y = q.getY();
@@ -92,11 +92,11 @@ void RouteSegments::set_end ( const std::vector<double> &x, const std::vector<do
 }
 void RouteSegments::set_center ( const std::vector<double> &x, const std::vector<double> &y, const std::vector<double> &theta ) {
     if(segments.size() != x.size()) segments.resize(x.size());
-    for ( int i = 0; i < segments.size(); i++ ) {
+    for ( size_t i = 0; i < segments.size(); i++ ) {
         segments[i].center.position.x = x[i];
         segments[i].center.position.y = y[i];
         segments[i].center.position.z = 0;
-        tf::Quaternion q;
+        tf2::Quaternion q;
         q.setRPY ( 0, 0, theta[i] );
         segments[i].center.orientation.x = q.getX();
         segments[i].center.orientation.y = q.getY();
@@ -106,15 +106,15 @@ void RouteSegments::set_center ( const std::vector<double> &x, const std::vector
 }
 void RouteSegments::set_level ( const std::vector<int> &level ) {
     if(segments.size() != level.size()) segments.resize(level.size());
-    for ( int i = 0; i < segments.size(); i++ ) segments[i].level = level[i];
+    for ( size_t i = 0; i < segments.size(); i++ ) segments[i].level = level[i];
 }
 
 void RouteSegments::convert(nav_msgs::msg::Path &path, double distance) const{
   path.header = header;
   double offset = 0;
-  std::vector<geometry_msgs::msg::PosePtr> waypoints;
+  std::vector<geometry_msgs::msg::Pose::SharedPtr> waypoints;
   for(size_t i = 0; i < segments.size(); i++){
-    const tuw::ros_msgs::msg::RouteSegment& segment =  (const tuw::ros_msgs::msg::RouteSegment& ) segments[i];
+    const tuw::ros_msgs::RouteSegment& segment =  (const tuw::ros_msgs::RouteSegment& ) segments[i];
     offset = segment.sample_equal_distance(waypoints, distance, offset);
   }
   /// check if an additional end point is needed

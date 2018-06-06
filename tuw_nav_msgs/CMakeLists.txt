@@ -16,12 +16,11 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(builtin_interfaces REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(rmw_implementation REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(tuw_geometry_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 rosidl_generate_interfaces(tuw_nav_msgs
   "msg/RouteSegment.msg"
@@ -37,24 +36,41 @@ rosidl_generate_interfaces(tuw_nav_msgs
   DEPENDENCIES std_msgs tuw_geometry_msgs nav_msgs
 )
 
-#include_directories(
-#  include
-#  ${rclcpp_INCLUDE_DIRS}
-#  ${rmw_connext_cpp_INCLUDE_DIRS}
-#  ${std_msgs_INCLUDE_DIRS}
-#  ${nav_msgs_INCLUDE_DIRS}
-#  ${geometry_msgs_INCLUDE_DIRS}
-#  ${tuw_geometry_msgs_INCLUDE_DIRS}
-#)
+include_directories(
+  include
+  ${std_msgs_INCLUDE_DIRS}
+  ${geometry_msgs_INCLUDE_DIRS}
+  ${tuw_geometry_msgs_INCLUDE_DIRS}
+)
 
-#add_library(tuw_nav_msgs_lib
-#   src/route_segment.cpp
-#   src/route_segments.cpp
-#   src/path.cpp
-#)
+add_library(tuw_nav_msgs_lib
+   src/route_segment.cpp
+   src/route_segments.cpp
+   src/path.cpp
+)
 
-#target_link_libraries(tuw_nav_msgs_lib ${rclcpp_LIBRARIES} ${rmw_connext_cpp_LIBRARIES} ${std_msgs} ${nav_msgs} ${geometry_msgs} ${tuw_geometry_msgs})
+rosidl_target_interfaces(tuw_nav_msgs_lib
+  ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
+target_link_libraries(tuw_nav_msgs_lib)
+
+ament_export_include_directories(include)
+ament_export_libraries(tuw_nav_msgs_lib)
 
 ament_package()
 
+# install artifacts
+#install(
+#  DIRECTORY cmake
+#  DESTINATION share/${PROJECT_NAME}
+#)
+install(
+  DIRECTORY include/
+  DESTINATION include
+)
+install(
+  TARGETS tuw_nav_msgs_lib
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)

@@ -38,4 +38,4 @@ using namespace tuw::ros_msgs;
 
 Path::Path() {
 
-};
+}

@@ -36,13 +36,13 @@
 
 
 //ROS
-#include <geometry_msgs/Point.h>
+#include <geometry_msgs/msg/point.hpp>
 
 namespace tuw {
 namespace ros_msgs {
 }
-double Distance(const geometry_msgs::Point &a, const geometry_msgs::Point &b);
-};
+double Distance(const geometry_msgs::msg::Point &a, const geometry_msgs::msg::Point &b);
+}
 
 
 #endif // TUW_GEOMETRY_MSGS_POINT_H

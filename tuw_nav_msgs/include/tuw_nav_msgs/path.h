@@ -36,7 +36,7 @@
 
 
 //ROS
-#include <nav_msgs/msg/Path.h>
+#include <nav_msgs/msg/path.hpp>
 
 namespace tuw {
   namespace ros_msgs{
@@ -44,8 +44,8 @@ namespace tuw {
   public:
     Path();
   };
-  };
-};
+  }
+}
 
 
 #endif // TUW_NAV_MSG_PATH_H

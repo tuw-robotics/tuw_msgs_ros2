@@ -36,16 +36,16 @@
 
 
 //ROS
-#include <geometry_msgs/Pose.h>
-#include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/msg/pose.hpp>
+#include <geometry_msgs/msg/pose_stamped.hpp>
 
 namespace tuw {
 namespace ros_msgs{
 class Pose;
-typedef boost::shared_ptr< Pose > PosePtr;
-typedef boost::shared_ptr< Pose const> PoseConstPtr;
+typedef std::shared_ptr<Pose> PosePtr;
+typedef std::shared_ptr<Pose const> PoseConstPtr;
   
-  class Pose : public geometry_msgs::Pose {
+  class Pose : public geometry_msgs::msg::Pose {
   public:
     Pose();
     Pose(double x, double y, double z, double roll, double pitch, double yaw);
@@ -53,16 +53,16 @@ typedef boost::shared_ptr< Pose const> PoseConstPtr;
     Pose& setXYZ(double x, double y, double z);
     Pose& setOrientation(double x, double y, double z, double w);
     Pose& setRPY(double roll, double pitch, double yaw);
-    geometry_msgs::PosePtr create();
+    geometry_msgs::msg::Pose::SharedPtr create();
   };
   
   
-};
-void SetPositionXYZ(geometry_msgs::PosePtr &pose, double x, double y, double z);  
-void SetOrientation(geometry_msgs::PosePtr &pose, double x, double y, double z, double w );
-void SetRPY ( geometry_msgs::PosePtr &pose, double roll, double pitch, double yaw  );
-void Set ( geometry_msgs::PosePtr &pose, double x, double y, double z, double roll, double pitch, double yaw );
-void Set ( geometry_msgs::PosePtr &des, const tuw::ros_msgs::Pose & src);
+}
+void SetPositionXYZ(geometry_msgs::msg::Pose::SharedPtr &pose, double x, double y, double z);  
+void SetOrientation(geometry_msgs::msg::Pose::SharedPtr &pose, double x, double y, double z, double w );
+void SetRPY ( geometry_msgs::msg::Pose::SharedPtr &pose, double roll, double pitch, double yaw  );
+void Set ( geometry_msgs::msg::Pose::SharedPtr &pose, double x, double y, double z, double roll, double pitch, double yaw );
+void Set ( geometry_msgs::msg::Pose::SharedPtr &des, const tuw::ros_msgs::Pose & src);
 
-};
+}
 #endif // TUW_GEOMETRY_MSGS_POSE_H

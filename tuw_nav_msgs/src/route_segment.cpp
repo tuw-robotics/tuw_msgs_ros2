@@ -32,17 +32,18 @@
 
 
 
-#include <tuw_geometry_msgs/msg/point.h>
+#include <tuw_geometry_msgs/point.h>
+#include <tuw_geometry_msgs/pose.h>
 #include <tuw_nav_msgs/route_segment.h>
 
 using namespace tuw::ros_msgs;
 
 RouteSegment::RouteSegment() {
 
-};
+}
 
 
-double RouteSegment::sample_equal_distance ( std::vector<geometry_msgs::msg::PosePtr > &poses, double distance_resolution, double distance_offset ) const {
+double RouteSegment::sample_equal_distance ( std::vector<geometry_msgs::msg::Pose::SharedPtr > &poses, double distance_resolution, double distance_offset ) const {
     if ( type == LINE ) {
 
         double dx = end.position.x-start.position.x, dy = end.position.y - start.position.y;
@@ -62,8 +63,8 @@ double RouteSegment::sample_equal_distance ( std::vector<geometry_msgs::msg::Pos
         static const double LEFT = -1.;
         static const double RIGHT = +1.;
         double direction = LEFT;
-        if ( orientation == tuw::ros_msgs::msg::RouteSegment::CLOCKWISE ) direction = LEFT;
-        else if ( orientation == tuw::ros_msgs::msg::RouteSegment::COUNTER_CLOCKWISE ) direction = RIGHT;
+        if ( orientation == tuw::ros_msgs::RouteSegment::CLOCKWISE ) direction = LEFT;
+        else if ( orientation == tuw::ros_msgs::RouteSegment::COUNTER_CLOCKWISE ) direction = RIGHT;
         else throw 0;
 
         double dx0 = start.position.x - center.position.x, dy0 = start.position.y - center.position.y;
@@ -94,7 +95,7 @@ double RouteSegment::sample_equal_distance ( std::vector<geometry_msgs::msg::Pos
     return distance_offset;
 }
 
-double RouteSegment::sample_equal_angle ( std::vector<geometry_msgs::msg::PosePtr > &poses, double angle_resolution, double distance_offset ) const {
+double RouteSegment::sample_equal_angle ( std::vector<geometry_msgs::msg::Pose::SharedPtr > &poses, double angle_resolution, double distance_offset ) const {
 
     if ( type == ARC ) {
         double radius = tuw::Distance ( start.position, center.position );
@@ -105,4 +106,6 @@ double RouteSegment::sample_equal_angle ( std::vector<geometry_msgs::msg::PosePt
         double distance_resolution = tuw::Distance ( start.position, end.position );
         return sample_equal_distance ( poses, distance_resolution, distance_offset );
     }
+    
+    return 0.0; // should not be reached
 }

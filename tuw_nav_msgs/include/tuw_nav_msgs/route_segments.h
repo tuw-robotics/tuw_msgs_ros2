@@ -36,8 +36,8 @@
 
 
 //ROS
-#include <tuw_nav_msgs/msg/RouteSegments.h>
-#include <nav_msgs/msg/Path.h>
+#include <tuw_nav_msgs/msg/route_segments.hpp>
+#include <nav_msgs/msg/path.hpp>
 
 namespace tuw {
 namespace ros_msgs{
@@ -56,7 +56,7 @@ namespace ros_msgs{
     void set_level(const std::vector<int> &level);
     void convert(nav_msgs::msg::Path &path, double sample_distance) const;
   };
-};
-};
+}
+}
 
 #endif // TUW_NAV_MSGS_ROUTE_SEGMENTS_H

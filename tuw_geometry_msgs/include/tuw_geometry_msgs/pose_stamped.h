@@ -36,12 +36,12 @@
 
 
 //ROS
-#include <geometry_msgs/Pose.h>
-#include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/msg/pose.hpp>
+#include <geometry_msgs/msg/pose_stamped.hpp>
 
 namespace tuw {
 namespace ros_msgs{
-  class PoseStamped : public geometry_msgs::PoseStamped {
+  class PoseStamped : public geometry_msgs::msg::PoseStamped {
   public:
     PoseStamped();
   };

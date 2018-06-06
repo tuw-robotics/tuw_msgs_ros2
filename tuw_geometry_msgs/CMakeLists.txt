@@ -20,12 +20,48 @@ find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
 rosidl_generate_interfaces(tuw_geometry_msgs
-	"msg/LineSegment.msg"
-	"msg/LineSegments.msg"
-	"msg/WeightedPoseWithCovariance.msg"
-	"msg/WeightedPoseWithCovarianceArray.msg"
-	DEPENDENCIES builtin_interfaces std_msgs geometry_msgs
+  "msg/LineSegment.msg"
+  "msg/LineSegments.msg"
+  "msg/WeightedPoseWithCovariance.msg"
+  "msg/WeightedPoseWithCovarianceArray.msg"
+  DEPENDENCIES builtin_interfaces std_msgs geometry_msgs
 )
 
+
+include_directories(
+  include
+  ${geometry_msgs_INCLUDE_DIRS}
+)
+
+add_library(tuw_geometry_msgs_lib
+   src/point.cpp
+   src/pose_stamped.cpp
+   src/pose.cpp
+)
+
+rosidl_target_interfaces(tuw_geometry_msgs_lib
+  ${PROJECT_NAME} "rosidl_typesupport_cpp")
+
+target_link_libraries(tuw_geometry_msgs_lib)
+
+ament_export_include_directories(include)
+ament_export_libraries(tuw_geometry_msgs_lib)
+
 ament_package()
+
+# install artifacts
+#install(
+#  DIRECTORY cmake
+#  DESTINATION share/${PROJECT_NAME}
+#)
+install(
+  DIRECTORY include/
+  DESTINATION include
+)
+install(
+  TARGETS tuw_geometry_msgs_lib
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
 

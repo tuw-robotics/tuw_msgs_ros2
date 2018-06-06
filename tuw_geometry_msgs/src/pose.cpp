@@ -39,7 +39,7 @@ using namespace tuw::ros_msgs;
 
 Pose::Pose() {
 
-};
+}
 
 Pose::Pose ( double x, double y, double z, double roll, double pitch, double yaw ) {
     set ( x,y,z,roll, pitch, yaw );
@@ -57,6 +57,7 @@ Pose& Pose::setXYZ ( double x, double y, double z ) {
 }
 Pose& Pose::setOrientation ( double x, double y, double z, double w ) {
     orientation.x = x, orientation.y = y, orientation.z = z, orientation.w = w;
+    return *this;
 }
 Pose& Pose::setRPY ( double roll, double pitch, double yaw ) {
     double halfYaw = double ( yaw ) * double ( 0.5 ), halfPitch = double ( pitch ) * double ( 0.5 ), halfRoll = double ( roll ) * double ( 0.5 );
@@ -67,18 +68,18 @@ Pose& Pose::setRPY ( double roll, double pitch, double yaw ) {
                      cosRoll * cosPitch * cosYaw + sinRoll * sinPitch * sinYaw ); // formerly yzx
     return *this;
 }
-geometry_msgs::PosePtr Pose::create() {
-    geometry_msgs::PosePtr p = geometry_msgs::PosePtr(new geometry_msgs::Pose);
+geometry_msgs::msg::Pose::SharedPtr Pose::create() {
+    geometry_msgs::msg::Pose::SharedPtr p = geometry_msgs::msg::Pose::SharedPtr(new geometry_msgs::msg::Pose);
     Set(p, *this); 
     return p;
 }
-void tuw::SetPositionXYZ ( geometry_msgs::PosePtr &pose, double x, double y, double z ) {
+void tuw::SetPositionXYZ ( geometry_msgs::msg::Pose::SharedPtr &pose, double x, double y, double z ) {
     pose->position.x = x, pose->position.y = y, pose->position.z = z;
 }
-void tuw::SetOrientation (geometry_msgs::PosePtr &pose,  double x, double y, double z, double w ) {
+void tuw::SetOrientation (geometry_msgs::msg::Pose::SharedPtr &pose,  double x, double y, double z, double w ) {
     pose->orientation.x = x, pose->orientation.y = y, pose->orientation.z = z, pose->orientation.w = w;
 }
-void tuw::SetRPY ( geometry_msgs::PosePtr &pose, double roll, double pitch, double yaw  ) {
+void tuw::SetRPY ( geometry_msgs::msg::Pose::SharedPtr &pose, double roll, double pitch, double yaw  ) {
     double halfYaw = double ( yaw ) * double ( 0.5 ), halfPitch = double ( pitch ) * double ( 0.5 ), halfRoll = double ( roll ) * double ( 0.5 );
     double cosYaw = cos ( halfYaw ), sinYaw = sin ( halfYaw ), cosPitch = cos ( halfPitch ), sinPitch = sin ( halfPitch ), cosRoll = cos ( halfRoll ), sinRoll = sin ( halfRoll );
     pose->orientation.x = sinRoll * cosPitch * cosYaw - cosRoll * sinPitch * sinYaw;   // x
@@ -86,10 +87,10 @@ void tuw::SetRPY ( geometry_msgs::PosePtr &pose, double roll, double pitch, doub
     pose->orientation.z = cosRoll * cosPitch * sinYaw - sinRoll * sinPitch * cosYaw;   // z
     pose->orientation.w = cosRoll * cosPitch * cosYaw + sinRoll * sinPitch * sinYaw; // formerly yzx
 }
-void tuw::Set ( geometry_msgs::PosePtr &pose, double x, double y, double z, double roll, double pitch, double yaw ) {
+void tuw::Set ( geometry_msgs::msg::Pose::SharedPtr &pose, double x, double y, double z, double roll, double pitch, double yaw ) {
     SetPositionXYZ(pose, x, y, z), SetRPY(pose, roll, pitch, yaw);
 }
-void tuw::Set ( geometry_msgs::PosePtr &des, const Pose & src) {
+void tuw::Set ( geometry_msgs::msg::Pose::SharedPtr &des, const Pose & src) {
     SetPositionXYZ(des, src.position.x, src.position.y, src.position.z); 
     SetOrientation(des, src.orientation.x, src.orientation.y, src.orientation.z, src.orientation.w);
 }

@@ -36,8 +36,8 @@
 
 
 //ROS
-#include <tuw_geometry_msgs/msg/pose.h>
-#include <tuw_nav_msgs/msg/RouteSegment.h>
+#include <tuw_geometry_msgs/pose.h>
+#include <tuw_nav_msgs/msg/route_segment.hpp>
 
 namespace tuw {
 namespace ros_msgs{
@@ -51,11 +51,11 @@ namespace ros_msgs{
     static const unsigned int SPLINE = 4;
     static const unsigned int CLOCKWISE  = 0;
     static const unsigned int COUNTER_CLOCKWISE  = 1;
-    double sample_equal_distance(std::vector<geometry_msgs::msg::PosePtr > &poses, double distance, double distance_offset) const;
-    double sample_equal_angle(std::vector<geometry_msgs::msg::PosePtr > &poses, double angle, double distance_offset) const;
+    double sample_equal_distance(std::vector<geometry_msgs::msg::Pose::SharedPtr > &poses, double distance, double distance_offset) const;
+    double sample_equal_angle(std::vector<geometry_msgs::msg::Pose::SharedPtr > &poses, double angle, double distance_offset) const;
   };
-};
-};
+}
+}
 
 
 #endif // TUW_NAV_MSGS_ROUTE_SEGMENT_H
